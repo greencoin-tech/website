@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>GreenCoin - A Programmable Cryptocurrency base on cPoC consensus.</title>
+
+	<script src="./js/jquery.min.js"></script>
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+
+	<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="./js/bootstrap.min.js"></script>
+
+	<script src="./js/language.js"></script>
+
+	<style type="text/css">
+		* { border-sizing: border-box; }
+		body {
+			font-family: Helvetica, sans-serif;
+			color: white;
+		}
+
+		@media (min-width: 768px) and (max-width: 1000px) {
+		    .navbar-header {
+		        float: none;
+		    }
+		    .navbar-toggle {
+		        display: block;
+		    }
+		    .navbar-collapse {
+		        border-top: 1px solid transparent;
+		        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+		    }
+		    .navbar-collapse.collapse {
+		        display: none!important;
+		    }
+		    .navbar-nav {
+		        float: none!important;
+		        margin: 7.5px -15px;
+		    }
+		    .navbar-nav>li {
+		        float: none;
+		    }
+		    .navbar-nav>li>a {
+		        padding-top: 3px;
+		        padding-bottom: 3px;
+		    }
+		    .navbar-text {
+		        float: none;
+		        margin: 15px 0;
+		    }
+		    /* since 3.1.0 */
+		    .navbar-collapse.collapse.in { 
+		        display: block!important;
+		    }
+		    .collapsing {
+		        overflow: hidden!important;
+		    }
+			.header-a {
+				font-size: 20px;
+				margin: 0;
+				display: block;
+			}
+		}
+		.navbar-self {
+			background-color: #222;
+			border-color: #222;
+			height: auto;
+		}
+		.header-a {
+			font-size: 18px;
+			margin: 16px 0;
+			display: block;
+		}
+		.header-a-text {
+			color: white;
+		}
+		.header-a-lang {
+			color: #3cc8c8;
+			border:1px solid rgba(255, 255, 255, 0.4);
+		}
+
+		.header-left {
+			flex-basis: 10%;
+		}
+		.header-div {
+			height: 84px;
+		}
+		.header-helper {
+			display: inline-block;
+			height: 100%;
+			vertical-align: middle;
+		}
+		.img-header{
+			height: 70px;
+			vertical-align: middle;
+		}
+
+		.navbar-right > li > a[class$="text"]:hover, .navbar-right > li > a[class$="text"]:focus {
+		    background-color: transparent;
+		    color: #3cc8c8;
+		}
+		.navbar-right > li > a[class$="lang"]:hover, .navbar-right > li > a[class$="lang"]:focus {
+		    background-color: rgba(0, 174, 153, 0.2);
+		    color: #3cc8c8;
+		}
+
+		.flex-item{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.flex-row{
+			display: flex;
+			align-content: space-between;
+			flex-wrap: wrap;
+		}
+
+		.img-top {
+			height: 54px;
+			width: 54px;
+			position: fixed;
+			bottom: 50px;
+			right: 50px;
+			background-color: #eeeeee;
+			padding: 5px;
+			border-radius: 50%;
+		}
+		.div-top {
+			z-index: 4;
+		}
+
+		section > div > h1, p {
+			text-align: center;
+		}
+
+		.sec-home{
+			background-image: url(images/background.jpg);
+			background-position: center;
+			background-repeat: no-repeat;
+			/*background-size: cover;*/
+			height: 100vh;
+			min-height: 770px;
+			padding-top: 350px;
+			z-index: 5;
+			position: relative;
+		}
+		.home-h1{
+			font-size: 54px;
+			font-family: Rubik;
+		}
+
+		.home-p{
+			font-size: 27px;
+			margin: 40px 10% 20px;
+			font-family: Rubik;
+		}
+		.home-padding {
+			padding-top: 30px;
+			padding-bottom: 30px;
+		}
+		.home-btn {
+			margin:10px auto;
+			color: white;
+			display: block;
+			font-family: Formular, sans-serif;
+			font-size: 16px;
+			height: 50px;
+			line-height: 16px;
+			padding: 16px 27px;
+			text-align: center;
+			width: 144px;
+		}
+		.home-btn-paper {
+			border:1px solid rgba(255, 255, 255, 0.4);
+		}
+		.home-btn-persale {
+			background-color: rgb(0, 174, 153);
+		}
+		a[class~="home-btn-paper"]:hover, a[class~="home-btn-paper"]:focus {
+		    color: white;
+		    text-decoration: none;
+		    border-color: #3cc8c8;
+		}
+		a[class~="home-btn-persale"]:hover, a[class~="home-btn-persale"]:focus {
+		    color: white;
+		    text-decoration: none;
+		    background-color: rgb(4, 190, 168);
+		}
+
+		.sec-feature{
+			padding: 80px 18% 90px;
+			background-color: rgb(0, 64, 96);
+		}
+		.feature-p {
+			font-size: 22px;
+			margin: 40px 10% 20px;
+			font-family: Rubik;
+		}
+		.img-feature{
+			padding-top: 40px;
+			height: 135px;
+		}
+		.feature-self{
+			padding: 0 20px;
+		}
+		.feature-title{
+			font-size: 27px;
+			padding: 30px 0 16px;
+			/*height: 114px;*/
+			/*vertical-align: middle;*/
+		}
+		.feature-text {
+			font-size: 18px;
+			text-align: center;
+		}
+
+		.sec-sale{
+			padding: 150px 18%;
+			/*background-color: rgb(43, 44, 40);*/
+			background-color: rgb(39, 57, 81);
+			text-align: center;
+		}
+		@media (max-width: 768px) {
+		    .navbar-nav>li>a {
+		        padding-top: 3px;
+		        padding-bottom: 3px;
+		    }
+			.sec-feature {
+				padding: 100px 4% 90px;
+			}
+			.sec-sale {
+				padding: 160px 4%;
+			}
+			.feature-p {
+				margin: 40px 6% 20px;
+				font-size: 20px;
+			}
+			.sec-home{
+				/*min-height: 0;*/
+				/*padding-top: 35vh;*/
+				padding-top: 250px;
+			}
+		}
+
+		.sale-p {
+			padding: 80px 0;
+		}
+		.sale-span {
+			border: 1px solid white;
+			font-size: 34px;
+			padding: 3%;
+		}
+		@media (max-width: 550px) {
+			.sale-p {
+				padding: 30px 0;
+			}
+			.sale-span {
+				font-size: 20px;
+				padding: 2%;
+			}
+		}
+
+		.sale-t {
+			font-size: 27px;
+			margin: 30px 0 0;
+		}
+		.sale-t-text {
+			font-size: 18px;
+			/*padding-left: 16px;*/
+		}
+
+		.progress-style{
+			height: 36px;
+		}
+		.progress-text {
+			font-size: 27px;
+		}
+
+		.sec-FAQ{
+			padding: 160px 0;
+			background-color: rgb(0, 64, 96);
+			/*background-color: black; */
+		}
+		.FAQ-h1 {
+			margin-bottom: 110px; 
+		}
+		.panel-self{
+			width: 80%;
+		}
+		.FAQ-panel {
+			background-color: transparent;
+		}
+		.FAQ-panel-head {
+		}
+		.FAQ-panel-title {
+			color: white;
+		}
+		.FAQ-panel-body {
+			/*color: rgb(39, 57, 81);*/
+			font-family: "Avenir Next", sans-serif;
+			font-size: 17px;
+			line-height: 28px;
+			padding: 0 15px 15px;
+			text-align: center;
+		}
+		.FAQ-panel-a {
+			/*color: rgb(39, 57, 81);*/
+			display: block; font-family: "Avenir Next", sans-serif;
+			font-size: 28px;
+			font-weight: 500;
+			line-height: 45px;
+			text-align: center;
+		}
+		/*a[class="FAQ-panel-a"]*/
+		.FAQ-panel-a:hover, .FAQ-panel-a:focus {
+			color: #3cc8c8;
+			text-decoration: none;
+		}
+
+		.sec-roadmap{
+			padding: 160px 0;
+			background-color: rgb(35, 47, 63); 
+		}
+
+		.sec-connected{
+			padding: 100px 0;
+			background-color: rgb(0, 64, 96); 
+		}
+		.connect-div {
+			margin: 40px 0;
+		}
+		.connect-item {
+			text-align: center;
+		}
+
+		.footer-item{
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			background-color: black;
+			margin-bottom: 0;
+			padding: 10px 0;
+			font-size: 14px;
+		}
+		.img-connected{
+			/*border-radius: 50%;*/
+			height: 54px;
+			width: 54px;
+		}
+	</style>
+
+	<style>
+		/* The actual timeline (the vertical ruler) */
+		.timeline {
+		position: relative;
+		max-width: 1200px;
+		margin: 0 auto;
+		}
+
+		/* The actual timeline (the vertical ruler) */
+		.timeline::after {
+		content: '';
+		position: absolute;
+		width: 3px;
+		/*background: linear-gradient(45deg, white, #3cc8c8);*/
+		background-color: #3cc8c8;
+		top: 0;
+		bottom: 0;
+		left: 50%;
+		margin-left: 1px;
+		}
+
+		/* Container around content */
+		.time-container {
+		position: relative;
+		background-color: inherit;
+		/*width: 50%;*/
+		}
+
+		/* The circles on the timeline */
+		.time-container::after {
+		content: '';
+		position: absolute;
+		width: 20px;
+		height: 20px;
+		right: -13px;
+		background-color: #3cc8c8;
+		border: 3px solid white;
+		box-shadow: 0 0 0 3px #fff;
+		top: 60px;
+		border-radius: 50%;
+		z-index: 1;
+		}
+
+		.time-active > div > h2 {
+			font-weight: 550;
+			font-size: 31px;
+		}
+		.time-active > div > p {
+			font-weight: 550;
+			font-size: 20px;
+		}
+		.time-active::after {
+			box-shadow: 0 0 0 5px #fff, 0 0 0 15px rgba(60,201,191,.45);
+		}
+
+		.time-h {
+			margin: 8px 0 20px 0;
+			color: #3cc8c8;
+			font-size: 27px;
+		}
+		.time-p {
+		/*width: 600px;*/
+		font-size: 16px;
+		margin-bottom: 0;
+		}
+
+		/* Place the container to the left */
+		.left {
+		/*left: 0;*/
+		right: 50%;
+		text-align: right;
+		max-width: 100%;
+		padding: 10px 40px 10px 0;
+		}
+		.left > div > p {
+			text-align: right;
+		}
+		.left::after {
+			/*left: -1px;*/
+		}
+
+		/* Place the container to the right */
+		.right {
+		left: 50%;
+		max-width: 100%;
+		padding: 10px 0 10px 40px;
+		}
+		.right > div > p {
+			/*max-width: 90%;*/
+			text-align: left;
+		}
+		.right::after {
+			left: -7px;
+		}
+
+		/* Add arrows to the left container (pointing right) */
+		/* .left::before {
+		content: " ";
+		height: 0;
+		position: absolute;
+		top: 18px;
+		width: 0;
+		z-index: 1;
+		right: 30px;
+		border: medium solid white;
+		border-width: 10px 0 10px 10px;
+		border-color: transparent transparent transparent white;
+		}*/
+
+		/* Add arrows to the right container (pointing left) */
+		/* .right::before {
+		content: " ";
+		height: 0;
+		position: absolute;
+		top: 18px;
+		width: 0;
+		z-index: 1;
+		left: 30px;
+		border: medium solid white;
+		border-width: 10px 10px 10px 0;
+		border-color: transparent white transparent transparent;
+		}*/
+
+		/* Fix the circle for containers on the right side */
+
+
+		/* The actual content */
+		.time-content {
+		/*padding: 20px 30px;*/
+		padding: 20px 0;
+		/*background-color: green;*/
+		position: relative;
+		border-radius: 6px;
+		/*width: 500px;*/
+		/*max-width: 50%;*/
+		}
+
+		/* Media queries - Responsive timeline on screens less than 600px wide */
+		@media screen and (max-width: 800px) {
+			.left {
+				right: 0;
+				text-align: left;
+			}
+			.left > div > p {
+				text-align: left;
+			}
+
+		  /* Place the timelime to the left */
+			.timeline::after {
+			left: 31px;
+			}
+
+			/* Full-width containers */
+			.time-container {
+			width: 100%;
+			padding-left: 70px;
+			padding-right: 25px;
+			}
+		  	.time-p {
+				width: auto;
+			}
+	  
+			/* Make sure that all arrows are pointing leftwards */
+			.time-container::before {
+			left: 60px;
+			border: medium solid white;
+			border-width: 10px 10px 10px 0;
+			border-color: transparent white transparent transparent;
+			}
+
+			/* Make sure all circles are at the same spot */
+			.left::after, .right::after {
+			left: 24px;
+			}
+
+			/* Make all right containers behave like the left ones */
+			.right {
+			left: 0%;
+			}
+		}
+	</style>
+</head>
+<body>
+    <header class='header-item'>
+		<nav class="navbar navbar-self navbar-fixed-top">
+		  <div class="container">
+		  	<div class="row">
+		  		<div class="col-xs-12 col-sm-12 col-md-12">
+		    		<!-- Brand and toggle get grouped for better mobile display -->
+				    <div class="navbar-header header-left">
+				      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false" style="height: 68px;">
+				        <span class="sr-only">Toggle navigation</span>
+				        <span class="icon-bar" style="background-color: #fff; width: 38px; margin: 7px 0;"></span>
+				        <span class="icon-bar" style="background-color: #fff; width: 38px; margin: 7px 0;"></span>
+				        <span class="icon-bar" style="background-color: #fff; width: 38px; margin: 7px 0;"></span>
+				      </button>
+				      <!-- <div><a class="navbar-brand header-brand" href="#"><img class='img-header' style="display: inline-block;" src="images/logo-white.png" alt="GreenCoin" />GreenCoin</a></div> -->
+				      <div class="header-div"><a href=""><span class="header-helper"></span><img class='img-header' src="images/logo-white.png" alt="GreenCoin" /></a></div>
+				    </div>
+
+				    <!-- Collect the nav links, forms, and other content for toggling -->
+				    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="flex-basis: 90%;">
+				      <ul class="nav navbar-nav navbar-right">
+				        <li><a class='header-a header-a-text' href="#Home" id='H_Home'>Home</a></li>
+				        <li><a class='header-a header-a-text' href="#Features" id='H_Features'>Features</a></li>
+				        <li><a class='header-a header-a-text' href="#Pre-sale" id='H_Sale'>Pre-sale</a></li>
+				        <li><a class='header-a header-a-text' href="#FAQ" id='H_FAQ'>FAQ</a></li>
+				        <li><a class='header-a header-a-text' href="#Roadmap" id='H_Roadmap'>Roadmap</a></li>
+				        <li><a class='header-a header-a-text' href="#Community" id='H_Community'>Community</a></li>
+				        <li><a class='header-a header-a-lang' id='H_EN_CH' onclick="setLanguage()">简体中文</a></li>
+				      </ul>
+				    </div>
+			    </div>
+			</div>
+		  </div>
+		</nav>
+    </header>
+
+	<main>
+		<div class="div-top"><a href='#Home' data-toggle="tooltip" title="return top" data-trigger="hover"><img class='img-top' src="images/top.png" alt="return_top" /></a></div>
+		<div class="main-image">
+			<section id='Home' class="sec-home">
+				<div class="flex-item">
+					<h1 class="home-h1" id='S1_1'>GreenCoin</h1>
+					<p class='home-p' id='S1_2'>A Programmable Cryptocurrency base on cPoC consensus</p>
+					<div class='container home-padding'>
+						<div class="row">
+							<div class="col-lg-4 col-md-4 col-sm-3"></div>
+							<div class="col-lg-2 col-md-2 col-sm-3">
+								<a href="./web_need.pdf" class="home-btn home-btn-paper" id='S1_3'>Whitepaper</a>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-3">
+								<a href="#Pre-sale" class="home-btn home-btn-persale" id='S1_4'>Get Coins</a>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-3"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id='Features' class="sec-feature">
+				<div class="flex-item">
+					<h1 class="home-h1" id='S2_1'>Features</h1>
+					<p class='feature-p' id='S2_2'>CreenCoin is a programmable cryptocurrency based on cPoC consensus and everyone is free to mine it with ordinary hard disks rather than energy-hungry ASIC miners. While remaining decentralized and robust, the network is highly scalable with integrated cross-chain features.</p>
+					<div class='container-fluid'>
+						<div class="row">
+							<div class="col-lg-4 col-md-4">
+								<div class="flex-item feature-self">
+									<img class='img-feature' src="images/feature1.png" alt="Decentralized" />
+									<p class="feature-title" id='S2_3'>Decentralized</p>
+									<p class="feature-text" id='S2_4'>Greencoins can be mined with ordinary hard disks rather than ASIC miners so everyone can take part in thus making the network more decentralized.</p>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4">
+								<div class="flex-item feature-self">
+									<img class='img-feature' src="images/feature2.png" alt="Eco-friendly" />
+									<p class="feature-title" id='S2_5'>Eco-friendly</p>
+									<p class="feature-text" id='S2_6'>Mining with hard disks consumes much less energy compared with CPU/GPU mining so it has a lower carbon footprint.</p>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4">
+								<div class="flex-item feature-self">
+									<img class='img-feature' src="images/feature3.png" alt="R&F" />
+									<p class="feature-title" id='S2_7'>Robust & Flexible</p>
+									<p class="feature-text" id='S2_8'>Greencoin inherits the basic structure of Bitcoin which has been proved robust while welcoming new technologies which make it more flexible.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id='Pre-sale' class="sec-sale">
+				<h1 class="home-h1" id='S3_1'>Pre-sale</h1>
+				<p class='feature-p' id='S3_2'>2,100,000 coins, or 1% of the total supply will be sold before the launch of the mainnet. You can purchase within the pre-sale period by interacting with the following smart contract:</p>
+				<p class="sale-p"><span class="sale-span">0xA68FCC7a84987d971053c1a533d2268f7F8e211D</span></p>
+
+				<div style="margin: 30px 10% 0 12%">
+					<div class='container-fluid'>
+						<div class="row">
+							<div class="col-lg-1 col-md-1 col-sm-1"></div>
+							<div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+								<div class="progress progress-style" style="margin-bottom: 0;">
+									<div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+										<span class="sr-only">80% Complete (danger)</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 progress-text">80 %</div>
+							<div class="col-lg-1 col-md-1 col-sm-1"></div>
+						</div>
+					</div>			
+				</div>
+				<p class="sale-t">00&nbsp;&nbsp;:&nbsp;&nbsp;00&nbsp;&nbsp;:&nbsp;&nbsp;00&nbsp;&nbsp;:&nbsp;&nbsp;00</p>
+				<p class="sale-t-text" id='S3_3'>&nbsp;&nbsp;&nbsp;&nbsp;Days &nbsp;&nbsp;Hours &nbsp;Minutes &nbsp;Seconds</p>
+			</section>
+			<section id='FAQ' class="sec-FAQ">
+				<div class="flex-item">
+					<h1 class="home-h1 FAQ-h1" id='S4_1'>Frequently Asked Questions</h1>
+					<div class="panel-group panel-self" id="accordion">
+						<div class="panel panel-default FAQ-panel" style="border: none;">
+							<div class="panel-heading FAQ-panel-head" style="background-color: transparent;background-image: none;">
+								<h4 class="panel-title FAQ-panel-title">
+									<a class="FAQ-panel-a" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" id='S4_2'>
+										How many coins will be sold at pre-sale?
+									</a>
+								</h4>
+							</div>
+							<div id="collapseOne" class="panel-collapse collapse">
+								<p class="FAQ-panel-body" id='S4_3'>
+									10% of the total supply, i.e., 21 million coins will be sold.
+								</p>
+							</div>
+						</div>
+						<div class="panel panel-default FAQ-panel" style="border: none;">
+							<div class="panel-heading FAQ-panel-head" style="background-color: transparent;background-image: none;">
+								<h4 class="panel-title FAQ-panel-title">
+									<a class="FAQ-panel-a" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" id='S4_4'>
+										When is the pre-sale?
+									</a>
+								</h4>
+							</div>
+							<div id="collapseTwo" class="panel-collapse collapse">
+								<p class="FAQ-panel-body" id='S4_5'>
+									It starts at xxxx and ends at xxxx.
+								</p>
+							</div>
+						</div>
+						<div class="panel panel-default FAQ-panel" style="border: none;">
+							<div class="panel-heading FAQ-panel-head" style="background-color: transparent;background-image: none;">
+								<h4 class="panel-title FAQ-panel-title">
+									<a class="FAQ-panel-a" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" id='S4_6'>
+										What is the price then?
+									</a>
+								</h4>
+							</div>
+							<div id="collapseThree" class="panel-collapse collapse">
+								<p class="FAQ-panel-body" id='S4_7'>
+									xxx USDT per coin.
+								</p>
+							</div>
+						</div>
+						<div class="panel panel-default FAQ-panel" style="border: none;">
+							<div class="panel-heading FAQ-panel-head" style="background-color: transparent;background-image: none;">
+								<h4 class="panel-title FAQ-panel-title">
+									<a class="FAQ-panel-a" data-toggle="collapse" data-parent="#accordion" href="#collapse4" id='S4_8'>
+										How can I take part in the pre-sale event?
+									</a>
+								</h4>
+							</div>
+							<div id="collapse4" class="panel-collapse collapse">
+								<p class="FAQ-panel-body" id='S4_9'>
+									Simply send ERC-20 based USDT tokens to our pre-sale smart contract and you'll receive the coins immediately.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id='Roadmap' class="sec-roadmap">
+				<div class="flex-item">
+					<h1 class="home-h1 FAQ-h1" id='S5_1'>Roadmap</h1>
+					<div>
+						<div class="timeline">
+						  <div class="time-container left">
+						    <div class="time-content">
+						      <h2 class="time-h" id='S5_2'>May 2019</h2>
+						      <p class="time-p" id='S5_3'>Whitepaper published.</p>
+						    </div>
+						  </div>
+						  <div class="time-container right time-active">
+						    <div class="time-content">
+						      <h2 class="time-h" id='S5_4'>August 2019</h2>
+						      <p class="time-p" id='S5_5'>Pre-sale & mainnet launch.</p>
+						    </div>
+						  </div>
+						  <div class="time-container left">
+						    <div class="time-content">
+						      <h2 class="time-h" id='S5_6'>March 2020</h2>
+						      <p class="time-p" id='S5_7'>Cross-chain ability.</p>
+						    </div>
+						  </div>
+						  <div class="time-container right">
+						    <div class="time-content">
+						      <h2 class="time-h" id='S5_8'>October 2020</h2>
+						      <p class="time-p" id='S5_9'>Smart contracts support.</p>
+						    </div>
+						  </div>
+						  <div class="time-container left">
+						    <div class="time-content">
+						      <h2 class="time-h" id='S5_10'>July 2021</h2>
+						      <p class="time-p" id='S5_11'>Dymaxion layer.</p>
+						    </div>
+						  </div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section id='Community' class="sec-connected">
+				<div class="flex-item">
+					<h1 class="home-h1 FAQ-h1" id='S6_1'>Get Connected</h1>
+					<div class='container connect-div'>
+						<div class="row">
+							<div class="col-lg-2 col-md-2 col-sm-2"></div>
+							<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 connect-item">
+								<a href='https://www.google.com' target="_blank" class="" data-toggle="tooltip" title="gmail" data-trigger="hover"><img class='img-connected' src="images/001-gmail.png" alt="gmail" /></a>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 connect-item">
+								<a href='https://www.twitter.com' target="_blank" class="" data-toggle="tooltip" title="twitter" data-trigger="hover"><img class='img-connected' src="images/002-twitter.png" alt="twitter" /></a>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 connect-item">
+								<a href='https://www.telegram.org' target="_blank" class="" data-toggle="tooltip" title="telegram" data-trigger="hover"><img class='img-connected' src="images/003-telegram.png" alt="telegram" /></a>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 connect-item">
+								<a href='https://www.github.com' target="_blank" class="" data-toggle="tooltip" title="github" data-trigger="hover"><img class='img-connected' src="images/004-github.png" alt="github" /></a>
+							</div>
+							<div class="col-lg-2 col-md-2 col-sm-2"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</main>
+	
+	<footer>
+		<div>
+			<p class="footer-item">
+				<span id='Footer_1'>Copyright @ 2019. GreenCoin Foundation.&nbsp;</span>
+				<span id='Footer_2'>All rights reserved.</span>
+			</p>
+		</div>
+	</footer>
+
+	<script>
+		$(function () { $("[data-toggle='tooltip']").tooltip(); });
+	</script>
+
+	<script>
+	  function filterPath(string) {
+	      return string
+	          .replace(/^\//, '')
+	          .replace(/(index|default).[a-zA-Z]{3,4}$/, '')
+	          .replace(/\/$/, '');
+	  }
+
+	  var locationPath = filterPath(location.pathname);
+	  $('a[href*="#"]').not(".FAQ-panel-a").each(function() {
+	      var thisPath = filterPath(this.pathname) || locationPath;
+	      var hash = this.hash;
+	      if ($("#" + hash.replace(/#/, '')).length) {
+	          if (locationPath == thisPath && (location.hostname == this.hostname || !this.hostname) && this.hash.replace(/#/, '')) {
+	              var $target = $(hash),
+	                  target = this.hash;
+	              if (target) {
+	                  $(this).click(function(event) {
+	                      // if ($('#animation').prop('checked')) {
+	                          event.preventDefault();
+	                          $('html,body').animate({scrollTop: $target.offset().top}, 1000, function() {
+	                              location.hash = target;
+	                              // $target.focus();
+	                              // if ($target.is(":focus")) { //checking if the target was focused
+	                              //     return false;
+	                              // } else {
+	                              //     $target.attr('tabindex', '-1'); //Adding tabindex for elements not focusable
+	                              //     $target.focus(); //Setting focus
+	                              // }
+	                          });
+	                      // }
+	                  });
+	              }
+	          }
+	      }
+	  });
+	</script>
+</body>
+</html>
